@@ -1,0 +1,57 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediksi Cuaca</title>
+    <script>
+        async function predictWeather() {
+            const suhu = document.getElementById('suhu').value;
+            const kelembapan = document.getElementById('kelembapan').value;
+            const kecepatan_angin = document.getElementById('kecepatan_angin').value;
+
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    suhu: parseFloat(suhu),
+                    kelembapan: parseFloat(kelembapan),
+                    kecepatan_angin: parseFloat(kecepatan_angin)
+                })
+            });
+
+            const result = await response.json();
+            document.getElementById('result').innerText = 'Cuaca: ' + result.result;
+        }
+    </script>
+</head>
+<body>
+    <h1>Prediksi Cuaca</h1>
+    <label for="suhu">Suhu:</label>
+    <select id="suhu">
+        <option value="0">Rendah</option>
+        <option value="1">Sedang</option>
+        <option value="2">Tinggi</option>
+    </select><br>
+
+    <label for="kelembapan">Kelembapan:</label>
+    <select id="kelembapan">
+        <option value="0">Rendah</option>
+        <option value="1">Sedang</option>
+        <option value="2">Tinggi</option>
+    </select><br>
+
+    <label for="kecepatan_angin">Kecepatan Angin:</label>
+    <select id="kecepatan_angin">
+        <option value="0">Rendah</option>
+        <option value="1">Sedang</option>
+        <option value="2">Tinggi</option>
+    </select><br>
+
+    <button onclick="predictWeather()">Prediksi</button>
+    <p id="result"></p>
+</body>
+</html>
